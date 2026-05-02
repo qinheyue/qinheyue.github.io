@@ -1,9 +1,937 @@
-<h1>欢迎来到我的个人网站</h1>
-<p>这里会分享我的想法和摄影作品。</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清和月 QINGHEYUE | 摄影师作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        'acid': '#ccff00',
+                        'hot-pink': '#ff006e',
+                        'electric': '#00f0ff',
+                        'void': '#0a0a0a',
+                        'concrete': '#f0f0f0',
+                    },
+                    boxShadow: {
+                        'brutal': '6px 6px 0px 0px #000000',
+                        'brutal-hover': '8px 8px 0px 0px #000000',
+                        'neon': '0 0 20px rgba(204, 255, 0, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root { --cursor-size: 20px; }
 
-<h2>📷 摄影作品</h2>
-<img src="XYY02387.JPG" width="500" alt="作品描述">
-<p>这张照片是在公园拍的...</p>
+        body {
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            overflow-x: hidden;
+            cursor: none;
+        }
 
-<h2>💭 最近的想法</h2>
-<p>2026年5月2日：网站终于搭好了，很有成就感！以后会在这里记录更多东西。</p>
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            border: 2px solid #ccff00;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        #cursor.hovered {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(204, 255, 0, 0.2);
+            border-color: #ff006e;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff006e;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00f0ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(12px, 9999px, 52px, 0); }
+            20% { clip: rect(65px, 9999px, 100px, 0); }
+            40% { clip: rect(22px, 9999px, 6px, 0); }
+            60% { clip: rect(88px, 9999px, 33px, 0); }
+            80% { clip: rect(15px, 9999px, 70px, 0); }
+            100% { clip: rect(55px, 9999px, 90px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 99px, 0); }
+            20% { clip: rect(12px, 9999px, 33px, 0); }
+            40% { clip: rect(88px, 9999px, 12px, 0); }
+            60% { clip: rect(33px, 9999px, 66px, 0); }
+            80% { clip: rect(55px, 9999px, 22px, 0); }
+            100% { clip: rect(12px, 9999px, 88px, 0); }
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .photo-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .photo-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px #ccff00;
+        }
+
+        .photo-card:hover img {
+            filter: contrast(1.2) saturate(1.3);
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.3;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+            border-left: 2px solid #333;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccff00;
+            border: 2px solid #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff006e;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(204, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(204, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .tab-btn.active {
+            background-color: #ccff00;
+            color: #0a0a0a;
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .contact-info-box {
+            background: #0a0a0a;
+            border: 4px solid #ffffff;
+            box-shadow: 8px 8px 0px #ccff00;
+        }
+
+        .skill-tag {
+            box-shadow: 4px 4px 0px #000000;
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #000000;
+        }
+
+        .experience-card {
+            border-left: 6px solid #ccff00;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.3s;
+        }
+
+        .experience-card:hover {
+            background: rgba(255,255,255,0.06);
+            transform: translateX(8px);
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            line-height: 0.9;
+        }
+
+        .privacy-mask {
+            filter: blur(4px);
+            user-select: none;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-acid selection:text-void">
+
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <!-- Scanlines & Noise -->
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b-4 border-white bg-void/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 cursor-pointer hover-trigger" onclick="window.scrollTo(0,0)">
+                    <h1 class="font-display text-2xl md:text-3xl font-black tracking-tighter text-white glitch" data-text="清和月 QINGHEYUE">
+                        清和月 QINGHEYUE
+                    </h1>
+                </div>
+
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#portfolio" class="font-display text-sm font-bold text-white hover:text-acid transition-colors hover-trigger">作品集</a>
+                    <a href="#about" class="font-display text-sm font-bold text-white hover:text-acid transition-colors hover-trigger">关于</a>
+                    <a href="#experience" class="font-display text-sm font-bold text-white hover:text-acid transition-colors hover-trigger">经历</a>
+                    <a href="#blog" class="font-display text-sm font-bold text-white hover:text-acid transition-colors hover-trigger">日志</a>
+                    <a href="#contact" class="px-6 py-2 bg-acid text-void font-display font-bold text-sm border-2 border-white shadow-brutal hover:shadow-brutal-hover hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all hover-trigger">
+                        联系我
+                    </a>
+                </div>
+
+                <button id="menuBtn" class="md:hidden text-white hover-trigger">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-void z-40 flex flex-col justify-center items-center space-y-8 border-l-4 border-acid">
+        <button id="closeMenu" class="absolute top-6 right-6 text-white hover-trigger">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <a href="#portfolio" class="text-4xl font-display font-bold text-white hover:text-acid mobile-link hover-trigger">作品集</a>
+        <a href="#about" class="text-4xl font-display font-bold text-white hover:text-acid mobile-link hover-trigger">关于</a>
+        <a href="#experience" class="text-4xl font-display font-bold text-white hover:text-acid mobile-link hover-trigger">经历</a>
+        <a href="#blog" class="text-4xl font-display font-bold text-white hover:text-acid mobile-link hover-trigger">日志</a>
+        <a href="#contact" class="text-4xl font-display font-bold text-acid mobile-link hover-trigger">联系我</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center grid-bg pt-20 overflow-hidden">
+        <div class="absolute top-40 left-10 w-32 h-32 border-4 border-hot-pink rotate-12 opacity-50"></div>
+        <div class="absolute bottom-40 right-10 w-48 h-48 border-4 border-electric -rotate-12 opacity-50"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="inline-block px-4 py-2 bg-hot-pink text-white font-display text-sm font-bold border-2 border-white shadow-brutal rotate-[-2deg]">
+                        ⚡ 摄影师 / 视觉内容创作者
+                    </div>
+
+                    <h2 class="font-display text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9] tracking-tighter reveal">
+                        清和月<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-acid to-electric">QING</span><br>
+                        HEYUE
+                    </h2>
+
+                    <p class="text-xl md:text-2xl text-gray-400 max-w-2xl font-light leading-relaxed reveal" style="transition-delay: 0.2s">
+                        工科背景出身的复合型摄影师，用<span class="text-acid font-bold">工程师的逻辑</span>解构光影美学。50+项目实战经验，服务客户超200人，擅长情绪纪实风人像与全流程影像制作。
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 reveal" style="transition-delay: 0.4s">
+                        <a href="#portfolio" class="group px-8 py-4 bg-acid text-void font-display font-bold text-lg border-3 border-white shadow-brutal hover:shadow-brutal-hover hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all flex items-center gap-2 hover-trigger">
+                            探索作品
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                        <a href="#about" class="px-8 py-4 bg-transparent text-white font-display font-bold text-lg border-3 border-white hover:bg-white hover:text-void transition-all hover-trigger">
+                            了解更多
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative reveal" style="transition-delay: 0.3s">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-acid to-hot-pink translate-x-4 translate-y-4 border-4 border-white"></div>
+                        <img src="https://images.unsplash.com/photo-1554048612-387768052bf7?w=800&h=1000&fit=crop" 
+                             alt="摄影师肖像" 
+                             class="relative w-full h-[600px] object-cover border-4 border-white grayscale hover:grayscale-0 transition-all duration-700 hover-trigger">
+
+                        <div class="absolute -bottom-6 -left-6 bg-void border-4 border-white p-4 shadow-brutal hover-trigger">
+                            <p class="font-display font-bold text-acid text-2xl">3年+</p>
+                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">摄影经验</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-8 h-8 text-acid" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Marquee Section -->
+    <div class="bg-acid border-y-4 border-white py-4 overflow-hidden">
+        <div class="marquee-container">
+            <div class="marquee-content font-display text-4xl md:text-6xl font-black text-void uppercase tracking-tighter">
+                情绪纪实风 · 孕妇写真 · 儿童摄影 · 婚礼跟拍 · 个人写真 · 产品摄影 · 街头纪实 · 建筑光影 · 情绪纪实风 · 孕妇写真 · 儿童摄影 · 婚礼跟拍 · 个人写真 · 产品摄影 · 街头纪实 · 建筑光影 ·
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-void border-b-4 border-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center reveal hover-trigger">
+                    <p class="stat-number text-6xl md:text-7xl text-acid mb-2">50+</p>
+                    <p class="text-gray-400 font-bold uppercase tracking-wider text-sm">完成项目</p>
+                </div>
+                <div class="text-center reveal hover-trigger" style="transition-delay: 0.1s">
+                    <p class="stat-number text-6xl md:text-7xl text-hot-pink mb-2">200+</p>
+                    <p class="text-gray-400 font-bold uppercase tracking-wider text-sm">服务客户</p>
+                </div>
+                <div class="text-center reveal hover-trigger" style="transition-delay: 0.2s">
+                    <p class="stat-number text-6xl md:text-7xl text-electric mb-2">95%</p>
+                    <p class="text-gray-400 font-bold uppercase tracking-wider text-sm">客户满意度</p>
+                </div>
+                <div class="text-center reveal hover-trigger" style="transition-delay: 0.3s">
+                    <p class="stat-number text-6xl md:text-7xl text-white mb-2">30%</p>
+                    <p class="text-gray-400 font-bold uppercase tracking-wider text-sm">复购率提升</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-32 bg-void relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                <div>
+                    <h3 class="font-display text-6xl md:text-8xl font-black text-white mb-4 reveal">精选作品</h3>
+                    <p class="text-gray-400 text-xl max-w-xl reveal">从情绪纪实孕妇大片到街头光影捕捉，每一次快门都是对平庸的视觉起义。</p>
+                </div>
+
+                <div class="flex flex-wrap gap-2 reveal">
+                    <button class="tab-btn active px-6 py-3 border-2 border-white font-display font-bold text-sm transition-all hover-trigger" data-filter="all">全部</button>
+                    <button class="tab-btn px-6 py-3 border-2 border-white text-white font-display font-bold text-sm hover:bg-white hover:text-void transition-all hover-trigger" data-filter="maternity">孕妇</button>
+                    <button class="tab-btn px-6 py-3 border-2 border-white text-white font-display font-bold text-sm hover:bg-white hover:text-void transition-all hover-trigger" data-filter="portrait">人像</button>
+                    <button class="tab-btn px-6 py-3 border-2 border-white text-white font-display font-bold text-sm hover:bg-white hover:text-void transition-all hover-trigger" data-filter="wedding">婚礼</button>
+                    <button class="tab-btn px-6 py-3 border-2 border-white text-white font-display font-bold text-sm hover:bg-white hover:text-void transition-all hover-trigger" data-filter="street">街头</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolioGrid">
+                <!-- Maternity 1 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="maternity">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://sarahsidwell.com/wp-content/uploads/sites/26220/2023/02/Soniah-Maternity-2020-64-2.jpg" 
+                             alt="情绪纪实风孕妇写真" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-acid text-void text-xs font-bold mb-2">孕妇写真</span>
+                        <h4 class="font-display text-2xl font-bold text-white">情绪纪实 · 孕育之光</h4>
+                        <p class="text-gray-300 text-sm mt-1">专业影棚 · 情绪纪实风</p>
+                    </div>
+                </div>
+
+                <!-- Portrait 1 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="portrait">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://neilvn.com/tangents/images/models/jessica-joy/DSC_3537_1800px.jpg" 
+                             alt="影棚人像摄影" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-hot-pink text-white text-xs font-bold mb-2">影棚人像</span>
+                        <h4 class="font-display text-2xl font-bold text-white">光影肖像 #01</h4>
+                        <p class="text-gray-300 text-sm mt-1">戏剧性布光 · 低键照明</p>
+                    </div>
+                </div>
+
+                <!-- Street 1 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="street">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://thumbs.dreamstime.com/b/futuristic-neon-lit-urban-night-scene-reflections-rainy-empty-city-street-371973162.jpg" 
+                             alt="街头夜景摄影" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-electric text-void text-xs font-bold mb-2">街头纪实</span>
+                        <h4 class="font-display text-2xl font-bold text-white">霓虹雨夜</h4>
+                        <p class="text-gray-300 text-sm mt-1">城市光影 · 赛博朋克色调</p>
+                    </div>
+                </div>
+
+                <!-- Wedding 1 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="wedding">
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img src="https://images.squarespace-cdn.com/content/v1/5ebc5b0285bdc72d1aee199d/1695199002363-76IL98D6KCAMSB70P4OX/st-giles-house-wedding-14.jpg" 
+                             alt="婚礼纪实摄影" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-white text-void text-xs font-bold mb-2">婚礼跟拍</span>
+                        <h4 class="font-display text-2xl font-bold text-white">纪实的温度</h4>
+                        <p class="text-gray-300 text-sm mt-1">自然抓拍 · 情感瞬间</p>
+                    </div>
+                </div>
+
+                <!-- Portrait 2 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="portrait">
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img src="https://neilvn.com/tangents/wp-content/uploads/2013/10/Randy-Rich_2013-696_retouch.jpg" 
+                             alt="经典影棚人像" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-hot-pink text-white text-xs font-bold mb-2">影棚人像</span>
+                        <h4 class="font-display text-2xl font-bold text-white">经典肖像</h4>
+                        <p class="text-gray-300 text-sm mt-1">低键照明 · 质感塑造</p>
+                    </div>
+                </div>
+
+                <!-- Maternity 2 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="maternity">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://sarahsidwell.com/wp-content/uploads/sites/26220/2023/02/Maggie-Maternity-2021-17-1024x1024.jpg" 
+                             alt="孕妇剪影摄影" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-acid text-void text-xs font-bold mb-2">孕妇写真</span>
+                        <h4 class="font-display text-2xl font-bold text-white">窗前的轮廓</h4>
+                        <p class="text-gray-300 text-sm mt-1">自然光 · 情绪纪实</p>
+                    </div>
+                </div>
+
+                <!-- Street 2 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="street">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://thumbs.dreamstime.com/b/street-photographer-capturing-nightlife-japan-street-photographer-hoodie-mask-captures-vibrant-nightlife-362124887.jpg" 
+                             alt="日本街头摄影" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-electric text-void text-xs font-bold mb-2">街头纪实</span>
+                        <h4 class="font-display text-2xl font-bold text-white">夜行者</h4>
+                        <p class="text-gray-300 text-sm mt-1">霓虹街头 · 人文观察</p>
+                    </div>
+                </div>
+
+                <!-- Portrait 3 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="portrait">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&h=800&fit=crop" 
+                             alt="自然光人像" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-hot-pink text-white text-xs font-bold mb-2">个人写真</span>
+                        <h4 class="font-display text-2xl font-bold text-white">自然情绪</h4>
+                        <p class="text-gray-300 text-sm mt-1">自然光 · 真实感</p>
+                    </div>
+                </div>
+
+                <!-- Street 3 -->
+                <div class="photo-card group relative border-4 border-white bg-void overflow-hidden reveal" data-category="street">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop" 
+                             alt="建筑光影" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block px-3 py-1 bg-electric text-void text-xs font-bold mb-2">建筑光影</span>
+                        <h4 class="font-display text-2xl font-bold text-white">几何诗篇</h4>
+                        <p class="text-gray-300 text-sm mt-1">空间构图 · 机械美学</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-32 bg-concrete text-void relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-acid rounded-full filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h3 class="font-display text-6xl md:text-7xl font-black mb-16 reveal">工作经历</h3>
+
+            <div class="space-y-8">
+                <!-- Studio -->
+                <div class="experience-card p-8 reveal hover-trigger">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h4 class="font-display text-3xl font-black mb-1">专业摄影工作室</h4>
+                            <p class="text-lg font-bold text-gray-600">副摄影师</p>
+                        </div>
+                        <span class="px-4 py-2 bg-void text-acid font-display font-bold text-sm border-2 border-void mt-2 md:mt-0">2026.01 - 2026.04</span>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-acid font-bold mt-1">▸</span>
+                            <span>作为主摄影师的重要创作伙伴，独立承担<strong>孕妇及儿童写真</strong>拍摄中的辅助构图与多角度捕捉任务，深度参与工作室主打的<strong>"情绪纪实风"</strong>孕妇大片创作</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-acid font-bold mt-1">▸</span>
+                            <span>独立负责辅助光源的布设与调试，包括<strong>柔光箱角度调整、反光板运用</strong>等，确保画面光影和谐统一</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-acid font-bold mt-1">▸</span>
+                            <span>负责拍摄素材的初步筛选与整理，按照工作室的成片标准，确保交付给后期团队的素材质量达标</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Photo Studio -->
+                <div class="experience-card p-8 reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h4 class="font-display text-3xl font-black mb-1">摄影妆造馆</h4>
+                            <p class="text-lg font-bold text-gray-600">摄影师</p>
+                        </div>
+                        <span class="px-4 py-2 bg-void text-hot-pink font-display font-bold text-sm border-2 border-void mt-2 md:mt-0">2025.09 - 2025.11</span>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-hot-pink font-bold mt-1">▸</span>
+                            <span>旺季<strong>独立承担店内全部拍摄任务</strong>，日均拍摄量提升40%，零失误保障业务平稳运行</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-hot-pink font-bold mt-1">▸</span>
+                            <span>负责从客户需求沟通、方案定制、现场拍摄到后期修图的<strong>全流程一站式服务</strong>，客户沟通成本降低30%</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-hot-pink font-bold mt-1">▸</span>
+                            <span>高效衔接4名化妆师的工作流，优化妆造与拍摄衔接效率，提升整体团队产出节奏</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Self Media -->
+                <div class="experience-card p-8 reveal hover-trigger" style="transition-delay: 0.2s">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h4 class="font-display text-3xl font-black mb-1">自媒体平台 · 独立摄影师</h4>
+                            <p class="text-lg font-bold text-gray-600">自媒体主理人</p>
+                        </div>
+                        <span class="px-4 py-2 bg-void text-electric font-display font-bold text-sm border-2 border-void mt-2 md:mt-0">2025.01 - 至今</span>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-electric font-bold mt-1">▸</span>
+                            <span>承接<strong>婚礼跟拍、个人写真及产品摄影</strong>等多元化项目，累计完成50+个项目，服务客户200+人次</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-electric font-bold mt-1">▸</span>
+                            <span>通过社交平台分享摄影技巧与作品，积累创作灵感并建立<strong>个人IP</strong>，提升线上获客能力</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-electric font-bold mt-1">▸</span>
+                            <span>独立把控拍摄风格与修图标准，确保作品高度统一，客户好评率保持高位</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Skills Section -->
+    <section id="about" class="py-32 bg-void relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 reveal">
+                    <h3 class="font-display text-6xl md:text-7xl font-black leading-tight">
+                        不只是<br>
+                        <span class="text-hot-pink">摄影师</span>
+                    </h3>
+
+                    <div class="space-y-6 text-lg leading-relaxed text-gray-300">
+                        <p>
+                            我是<strong class="font-bold border-b-4 border-acid text-white">清和月</strong>，工科背景出身的复合型创作者。机械制图培养了我的空间构图感，数控编程锻炼了我的逻辑思维——我用工程师的精密思维解构光影美学。
+                        </p>
+                        <p>
+                            从专业工作室的<strong class="text-acid">情绪纪实风孕妇大片</strong>，到独立支撑摄影妆造馆的旺季拍摄，再到运营自媒体承接多元化项目，我拒绝被单一标签定义。
+                        </p>
+                        <p>
+                            国家励志奖学金(Top 5%)获得者，具备极强的学习能力与抗压能力。在高压环境下保持高效产出，<span class="bg-acid text-void px-1 font-bold">日均拍摄量提升40%</span>的同时保持零失误。
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag px-4 py-2 bg-acid text-void font-bold border-2 border-white">情绪纪实风</span>
+                        <span class="skill-tag px-4 py-2 bg-hot-pink text-white font-bold border-2 border-white">孕妇写真</span>
+                        <span class="skill-tag px-4 py-2 bg-electric text-void font-bold border-2 border-white">儿童摄影</span>
+                        <span class="skill-tag px-4 py-2 bg-white text-void font-bold border-2 border-white">婚礼跟拍</span>
+                        <span class="skill-tag px-4 py-2 bg-acid text-void font-bold border-2 border-white">影棚布光</span>
+                        <span class="skill-tag px-4 py-2 bg-hot-pink text-white font-bold border-2 border-white">后期精修</span>
+                        <span class="skill-tag px-4 py-2 bg-electric text-void font-bold border-2 border-white">Lightroom</span>
+                        <span class="skill-tag px-4 py-2 bg-white text-void font-bold border-2 border-white">Photoshop</span>
+                        <span class="skill-tag px-4 py-2 bg-acid text-void font-bold border-2 border-white">像素蛋糕</span>
+                        <span class="skill-tag px-4 py-2 bg-hot-pink text-white font-bold border-2 border-white">海草云</span>
+                        <span class="skill-tag px-4 py-2 bg-electric text-void font-bold border-2 border-white">器材管理</span>
+                        <span class="skill-tag px-4 py-2 bg-white text-void font-bold border-2 border-white">客户沟通</span>
+                    </div>
+                </div>
+
+                <div class="relative reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4 mt-8">
+                            <div class="border-4 border-white p-4 bg-void shadow-[8px_8px_0px_0px_#ccff00] hover-trigger">
+                                <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400&h=500&fit=crop" class="w-full h-48 object-cover mb-2 grayscale" alt="摄影器材">
+                                <p class="font-display font-bold text-sm text-white">专业器材控</p>
+                            </div>
+                            <div class="border-4 border-white p-4 bg-void shadow-[8px_8px_0px_0px_#ff006e] hover-trigger">
+                                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=300&fit=crop" class="w-full h-32 object-cover mb-2 grayscale" alt="胶片">
+                                <p class="font-display font-bold text-sm text-white">后期全流程</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="border-4 border-white p-4 bg-void shadow-[8px_8px_0px_0px_#00f0ff] hover-trigger">
+                                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop" class="w-full h-32 object-cover mb-2 grayscale" alt="设计">
+                                <p class="font-display font-bold text-sm text-white">工程师思维</p>
+                            </div>
+                            <div class="border-4 border-white p-4 bg-void shadow-[8px_8px_0px_0px_#ccff00] hover-trigger">
+                                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=500&fit=crop" class="w-full h-48 object-cover mb-2 grayscale" alt="创作">
+                                <p class="font-display font-bold text-sm text-white">多元创作</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-32 bg-void border-t-4 border-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-16">
+                <h3 class="font-display text-6xl md:text-7xl font-black text-white reveal">摄影日志</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <article class="group border-4 border-white bg-void hover:bg-white hover:text-void transition-all duration-300 p-6 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[-4px] hover:translate-y-[-4px] reveal hover-trigger">
+                    <div class="text-sm font-bold text-gray-400 mb-4 group-hover:text-void">2026.04.10</div>
+                    <h4 class="font-display text-2xl font-bold mb-4 leading-tight">从机械制图到构图美学：工科生的摄影觉醒</h4>
+                    <p class="text-gray-400 group-hover:text-void mb-6 line-clamp-3">
+                        数控编程培养的逻辑思维，如何转化为对光影的精确控制？我在工科课堂里找到了答案...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider bg-acid text-void px-2 py-1">观点</span>
+                        <span class="text-sm font-bold group-hover:translate-x-2 transition-transform">阅读 →</span>
+                    </div>
+                </article>
+
+                <article class="group border-4 border-white bg-void hover:bg-white hover:text-void transition-all duration-300 p-6 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[-4px] hover:translate-y-[-4px] reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="text-sm font-bold text-gray-400 mb-4 group-hover:text-void">2026.03.15</div>
+                    <h4 class="font-display text-2xl font-bold mb-4 leading-tight">情绪纪实风的布光密码</h4>
+                    <p class="text-gray-400 group-hover:text-void mb-6 line-clamp-3">
+                        在孕妇大片创作中，如何通过柔光箱角度和反光板的微妙调整，捕捉孕育生命最柔软的情绪瞬间...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider bg-hot-pink text-white px-2 py-1">教程</span>
+                        <span class="text-sm font-bold group-hover:translate-x-2 transition-transform">阅读 →</span>
+                    </div>
+                </article>
+
+                <article class="group border-4 border-white bg-void hover:bg-white hover:text-void transition-all duration-300 p-6 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[-4px] hover:translate-y-[-4px] reveal hover-trigger" style="transition-delay: 0.2s">
+                    <div class="text-sm font-bold text-gray-400 mb-4 group-hover:text-void">2026.02.20</div>
+                    <h4 class="font-display text-2xl font-bold mb-4 leading-tight">旺季40%拍摄量提升背后的团队协作法则</h4>
+                    <p class="text-gray-400 group-hover:text-void mb-6 line-clamp-3">
+                        在摄影妆造馆的旺季，我如何独立衔接4名化妆师的工作流，实现零失误高产出的...
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider bg-electric text-void px-2 py-1">经验</span>
+                        <span class="text-sm font-bold group-hover:translate-x-2 transition-transform">阅读 →</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 bg-acid relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="grid grid-cols-12 h-full">
+                <div class="bg-void h-full"></div><div class="bg-transparent h-full"></div>
+                <div class="bg-void h-full"></div><div class="bg-transparent h-full"></div>
+                <div class="bg-void h-full"></div><div class="bg-transparent h-full"></div>
+                <div class="bg-void h-full"></div><div class="bg-transparent h-full"></div>
+                <div class="bg-void h-full"></div><div class="bg-transparent h-full"></div>
+                <div class="bg-void h-full"></div><div class="bg-transparent h-full"></div>
+            </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h3 class="font-display text-6xl md:text-8xl font-black text-void mb-8 text-center reveal">一起创作？</h3>
+            <p class="text-2xl text-void/80 mb-16 font-bold text-center reveal">婚礼跟拍 · 个人写真 · 产品摄影 · 商业合作</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
+                <!-- Phone -->
+                <div class="contact-info-box p-8 hover-trigger">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-void text-acid border-2 border-white flex items-center justify-center font-display font-bold text-xl shadow-brutal">📱</div>
+                        <div>
+                            <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">电话 / 微信同号</p>
+                            <p class="font-display text-3xl font-black text-void privacy-mask">166-****-****</p>
+                        </div>
+                    </div>
+                    <p class="text-void/70 text-sm">随时可接听，工作日 9:00-21:00</p>
+                </div>
+
+                <!-- Email -->
+                <div class="contact-info-box p-8 hover-trigger">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-void text-hot-pink border-2 border-white flex items-center justify-center font-display font-bold text-xl shadow-brutal">✉️</div>
+                        <div>
+                            <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">邮箱</p>
+                            <p class="font-display text-xl md:text-2xl font-black text-void break-all privacy-mask">qing*****@outlook.com</p>
+                        </div>
+                    </div>
+                    <p class="text-void/70 text-sm">发送作品集与报价单，24小时内回复</p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center reveal">
+                <p class="text-void/60 text-lg mb-6">也可以通过以下平台找到我</p>
+                <div class="flex justify-center gap-4">
+                    <div class="w-16 h-16 bg-void text-white border-4 border-white flex items-center justify-center font-display font-bold shadow-brutal hover-trigger">
+                        <span class="text-sm">小红书</span>
+                    </div>
+                    <div class="w-16 h-16 bg-void text-white border-4 border-white flex items-center justify-center font-display font-bold shadow-brutal hover-trigger">
+                        <span class="text-sm">闲鱼</span>
+                    </div>
+                    <div class="w-16 h-16 bg-void text-white border-4 border-white flex items-center justify-center font-display font-bold shadow-brutal hover-trigger">
+                        <span class="text-sm">抖音</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-void border-t-4 border-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="font-display text-2xl font-black text-white glitch" data-text="清和月 QINGHEYUE">
+                清和月 QINGHEYUE
+            </div>
+            <div class="text-gray-500 text-sm font-bold">
+                 清和月. 保留所有权利.
+            </div>
+            <div class="flex gap-6 text-sm font-bold text-gray-400">
+                <span class="text-acid">独立摄影师</span>
+                <span class="text-gray-600">|</span>
+                <span>工科背景 · 视觉创作者</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            trigger.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        // Portfolio Filter
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const photoCards = document.querySelectorAll('.photo-card');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+
+                photoCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Random Glitch
+        setInterval(() => {
+            const glitchElements = document.querySelectorAll('.glitch');
+            const randomEl = glitchElements[Math.floor(Math.random() * glitchElements.length)];
+            randomEl.style.animation = 'none';
+            setTimeout(() => {
+                randomEl.style.animation = '';
+            }, 100);
+        }, 5000);
+    </script>
+</body>
+</html>
