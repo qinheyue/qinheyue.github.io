@@ -254,24 +254,18 @@
             font-weight: 900;
             line-height: 0.9;
         }
-
-        .privacy-mask {
-            filter: blur(4px);
-            user-select: none;
-            opacity: 0.6;
-        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-acid selection:text-void">
 
-    <!-- Custom Cursor -->
+    <!-- 自定义光标 -->
     <div id="cursor"></div>
 
-    <!-- Scanlines & Noise -->
+    <!-- 扫描线 & 噪点纹理 -->
     <div class="scanlines"></div>
     <div class="noise"></div>
 
-    <!-- Navigation -->
+    <!-- 导航栏 -->
     <nav class="fixed top-0 w-full z-50 border-b-4 border-white bg-void/90 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -300,7 +294,7 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
+    <!-- 手机菜单 -->
     <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-void z-40 flex flex-col justify-center items-center space-y-8 border-l-4 border-acid">
         <button id="closeMenu" class="absolute top-6 right-6 text-white hover-trigger">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,7 +308,7 @@
         <a href="#contact" class="text-4xl font-display font-bold text-acid mobile-link hover-trigger">联系我</a>
     </div>
 
-    <!-- Hero Section -->
+    <!-- 首屏 -->
     <section class="relative min-h-screen flex items-center justify-center grid-bg pt-20 overflow-hidden">
         <div class="absolute top-40 left-10 w-32 h-32 border-4 border-hot-pink rotate-12 opacity-50"></div>
         <div class="absolute bottom-40 right-10 w-48 h-48 border-4 border-electric -rotate-12 opacity-50"></div>
@@ -372,7 +366,7 @@
         </div>
     </section>
 
-    <!-- Marquee Section -->
+    <!-- 跑马灯 -->
     <div class="bg-acid border-y-4 border-white py-4 overflow-hidden">
         <div class="marquee-container">
             <div class="marquee-content font-display text-4xl md:text-6xl font-black text-void uppercase tracking-tighter">
@@ -381,7 +375,7 @@
         </div>
     </div>
 
-    <!-- Stats Section -->
+    <!-- 数据统计 -->
     <section class="py-20 bg-void border-b-4 border-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -405,7 +399,7 @@
         </div>
     </section>
 
-    <!-- Portfolio Section -->
+    <!-- 作品集 -->
     <section id="portfolio" class="py-32 bg-void relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
@@ -562,7 +556,7 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- 工作经历 -->
     <section id="experience" class="py-32 bg-concrete text-void relative overflow-hidden">
         <div class="absolute top-0 right-0 w-96 h-96 bg-acid rounded-full filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
 
@@ -648,7 +642,7 @@
         </div>
     </section>
 
-    <!-- About / Skills Section -->
+    <!-- 关于我 & 技能 -->
     <section id="about" class="py-32 bg-void relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -714,7 +708,7 @@
         </div>
     </section>
 
-    <!-- Blog Section -->
+    <!-- 摄影日志 -->
     <section id="blog" class="py-32 bg-void border-t-4 border-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-end mb-16">
@@ -761,7 +755,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- 联系方式 -->
     <section id="contact" class="py-32 bg-acid relative overflow-hidden">
         <div class="absolute inset-0 opacity-10">
             <div class="grid grid-cols-12 h-full">
@@ -779,25 +773,25 @@
             <p class="text-2xl text-void/80 mb-16 font-bold text-center reveal">婚礼跟拍 · 个人写真 · 产品摄影 · 商业合作</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
-                <!-- Phone -->
+                <!-- 微信 -->
                 <div class="contact-info-box p-8 hover-trigger">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-void text-acid border-2 border-white flex items-center justify-center font-display font-bold text-xl shadow-brutal">📱</div>
                         <div>
-                            <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">电话 / 微信同号</p>
-                            <p class="font-display text-3xl font-black text-void privacy-mask">166-****-****</p>
+                            <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">微信号</p>
+                            <p class="font-display text-2xl md:text-3xl font-black text-hot-pink">guguyang5415</p>
                         </div>
                     </div>
-                    <p class="text-void/70 text-sm">随时可接听，工作日 9:00-21:00</p>
+                    <p class="text-void/70 text-sm">添加请备注“摄影合作”</p>
                 </div>
 
-                <!-- Email -->
+                <!-- 邮箱 -->
                 <div class="contact-info-box p-8 hover-trigger">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-void text-hot-pink border-2 border-white flex items-center justify-center font-display font-bold text-xl shadow-brutal">✉️</div>
                         <div>
                             <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">邮箱</p>
-                            <p class="font-display text-xl md:text-2xl font-black text-void break-all privacy-mask">qing*****@outlook.com</p>
+                            <p class="font-display text-xl md:text-2xl font-black text-hot-pink break-all">qinheyue@outlook.com</p>
                         </div>
                     </div>
                     <p class="text-void/70 text-sm">发送作品集与报价单，24小时内回复</p>
@@ -821,7 +815,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- 页脚 -->
     <footer class="bg-void border-t-4 border-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="font-display text-2xl font-black text-white glitch" data-text="清和月 QINGHEYUE">
@@ -839,7 +833,7 @@
     </footer>
 
     <script>
-        // Custom Cursor
+        // 自定义光标
         const cursor = document.getElementById('cursor');
         const hoverTriggers = document.querySelectorAll('.hover-trigger');
 
@@ -853,7 +847,7 @@
             trigger.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
         });
 
-        // Mobile Menu
+        // 手机菜单
         const menuBtn = document.getElementById('menuBtn');
         const closeMenu = document.getElementById('closeMenu');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -865,7 +859,7 @@
             link.addEventListener('click', () => mobileMenu.classList.remove('open'));
         });
 
-        // Portfolio Filter
+        // 作品集筛选
         const tabBtns = document.querySelectorAll('.tab-btn');
         const photoCards = document.querySelectorAll('.photo-card');
 
@@ -893,7 +887,7 @@
             });
         });
 
-        // Scroll Reveal
+        // 滚动显示动画
         const revealElements = document.querySelectorAll('.reveal');
 
         const revealObserver = new IntersectionObserver((entries) => {
@@ -909,7 +903,7 @@
 
         revealElements.forEach(el => revealObserver.observe(el));
 
-        // Smooth Scroll
+        // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -923,7 +917,7 @@
             });
         });
 
-        // Random Glitch
+        // 随机故障效果
         setInterval(() => {
             const glitchElements = document.querySelectorAll('.glitch');
             const randomEl = glitchElements[Math.floor(Math.random() * glitchElements.length)];
